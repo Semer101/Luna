@@ -20,6 +20,11 @@ class AppConfig {
 
   static bool get hasGemini => geminiApiKey.isNotEmpty;
 
+  /// Gemini model used for the copilot chat.
+  /// `gemini-2.5-flash` is fast and cost-efficient; switch to `gemini-2.5-pro`
+  /// for higher quality when needed.
+  static const String geminiModel = 'gemini-2.5-flash';
+
   static void loadFromEnv(Map<String, String> env) {
     if (env['SUPABASE_URL']?.isNotEmpty == true) {
       supabaseUrl = env['SUPABASE_URL']!;

@@ -4,6 +4,7 @@ import 'package:luna_ai/shared/models/ai_suggestion_model.dart';
 import 'package:luna_ai/shared/models/cycle_model.dart';
 import 'package:luna_ai/shared/models/mood_model.dart';
 import 'package:luna_ai/shared/models/profile_model.dart';
+import 'package:luna_ai/shared/models/schedule_model.dart';
 import 'package:luna_ai/shared/models/task_model.dart';
 import 'package:luna_ai/shared/models/wellness_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -94,6 +95,11 @@ class DemoStorageService {
           createdAt: json['created_at'] != null
               ? DateTime.parse(json['created_at'] as String)
               : null,
+          schedule: json['schedule'] != null
+              ? ScheduleModel.fromJson(
+                  json['schedule'] as Map<String, dynamic>,
+                )
+              : null,
         );
       });
 
@@ -107,6 +113,7 @@ class DemoStorageService {
                 'role': m.role,
                 'content': m.content,
                 'created_at': m.createdAt?.toIso8601String(),
+                if (m.schedule != null) 'schedule': m.schedule!.toJson(),
               })
           .toList()),
     );

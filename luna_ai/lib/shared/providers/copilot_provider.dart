@@ -78,6 +78,7 @@ class ChatNotifier extends StateNotifier<List<ChatMessage>> {
       role: 'assistant',
       content: response.text,
       createdAt: DateTime.now(),
+      schedule: response.schedule,
     );
     state = [...state.where((m) => m.id != assistantId), finalMsg];
     await _ref.read(chatRepositoryProvider).saveMessage(finalMsg);

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:luna_ai/shared/models/schedule_model.dart';
 
 part 'wellness_model.freezed.dart';
 part 'wellness_model.g.dart';
@@ -81,5 +82,9 @@ class ChatMessage with _$ChatMessage {
     required String content,
     DateTime? createdAt,
     @Default(false) bool isStreaming,
+
+    /// Optional structured schedule attached to this message (assistant only).
+    /// When present, the chat UI renders time-blocked cards underneath the text.
+    ScheduleModel? schedule,
   }) = _ChatMessage;
 }

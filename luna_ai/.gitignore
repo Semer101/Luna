@@ -41,3 +41,16 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Environment files (NEVER commit secrets!)
+.env
+.env.local
+.env.*.local
+*.env
+
+# Local config that may contain secrets
+**/google-services.json
+**/firebase_options.dart
+**/keystore.properties
+**/*.jks
+**/*.keystore

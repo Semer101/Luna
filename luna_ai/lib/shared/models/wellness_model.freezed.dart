@@ -1248,6 +1248,10 @@ mixin _$ChatMessage {
   DateTime? get createdAt => throw _privateConstructorUsedError;
   bool get isStreaming => throw _privateConstructorUsedError;
 
+  /// Optional structured schedule attached to this message (assistant only).
+  /// When present, the chat UI renders time-blocked cards underneath the text.
+  ScheduleModel? get schedule => throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
   $ChatMessageCopyWith<ChatMessage> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1264,7 +1268,10 @@ abstract class $ChatMessageCopyWith<$Res> {
       String role,
       String content,
       DateTime? createdAt,
-      bool isStreaming});
+      bool isStreaming,
+      ScheduleModel? schedule});
+
+  $ScheduleModelCopyWith<$Res>? get schedule;
 }
 
 /// @nodoc
@@ -1285,6 +1292,7 @@ class _$ChatMessageCopyWithImpl<$Res, $Val extends ChatMessage>
     Object? content = null,
     Object? createdAt = freezed,
     Object? isStreaming = null,
+    Object? schedule = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -1307,7 +1315,23 @@ class _$ChatMessageCopyWithImpl<$Res, $Val extends ChatMessage>
           ? _value.isStreaming
           : isStreaming // ignore: cast_nullable_to_non_nullable
               as bool,
+      schedule: freezed == schedule
+          ? _value.schedule
+          : schedule // ignore: cast_nullable_to_non_nullable
+              as ScheduleModel?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ScheduleModelCopyWith<$Res>? get schedule {
+    if (_value.schedule == null) {
+      return null;
+    }
+
+    return $ScheduleModelCopyWith<$Res>(_value.schedule!, (value) {
+      return _then(_value.copyWith(schedule: value) as $Val);
+    });
   }
 }
 
@@ -1324,7 +1348,11 @@ abstract class _$$ChatMessageImplCopyWith<$Res>
       String role,
       String content,
       DateTime? createdAt,
-      bool isStreaming});
+      bool isStreaming,
+      ScheduleModel? schedule});
+
+  @override
+  $ScheduleModelCopyWith<$Res>? get schedule;
 }
 
 /// @nodoc
@@ -1343,6 +1371,7 @@ class __$$ChatMessageImplCopyWithImpl<$Res>
     Object? content = null,
     Object? createdAt = freezed,
     Object? isStreaming = null,
+    Object? schedule = freezed,
   }) {
     return _then(_$ChatMessageImpl(
       id: null == id
@@ -1365,6 +1394,10 @@ class __$$ChatMessageImplCopyWithImpl<$Res>
           ? _value.isStreaming
           : isStreaming // ignore: cast_nullable_to_non_nullable
               as bool,
+      schedule: freezed == schedule
+          ? _value.schedule
+          : schedule // ignore: cast_nullable_to_non_nullable
+              as ScheduleModel?,
     ));
   }
 }
@@ -1377,7 +1410,8 @@ class _$ChatMessageImpl implements _ChatMessage {
       required this.role,
       required this.content,
       this.createdAt,
-      this.isStreaming = false});
+      this.isStreaming = false,
+      this.schedule});
 
   @override
   final String id;
@@ -1391,9 +1425,14 @@ class _$ChatMessageImpl implements _ChatMessage {
   @JsonKey()
   final bool isStreaming;
 
+  /// Optional structured schedule attached to this message (assistant only).
+  /// When present, the chat UI renders time-blocked cards underneath the text.
+  @override
+  final ScheduleModel? schedule;
+
   @override
   String toString() {
-    return 'ChatMessage(id: $id, role: $role, content: $content, createdAt: $createdAt, isStreaming: $isStreaming)';
+    return 'ChatMessage(id: $id, role: $role, content: $content, createdAt: $createdAt, isStreaming: $isStreaming, schedule: $schedule)';
   }
 
   @override
@@ -1407,12 +1446,14 @@ class _$ChatMessageImpl implements _ChatMessage {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.isStreaming, isStreaming) ||
-                other.isStreaming == isStreaming));
+                other.isStreaming == isStreaming) &&
+            (identical(other.schedule, schedule) ||
+                other.schedule == schedule));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, role, content, createdAt, isStreaming);
+  int get hashCode => Object.hash(
+      runtimeType, id, role, content, createdAt, isStreaming, schedule);
 
   @JsonKey(ignore: true)
   @override
@@ -1427,7 +1468,8 @@ abstract class _ChatMessage implements ChatMessage {
       required final String role,
       required final String content,
       final DateTime? createdAt,
-      final bool isStreaming}) = _$ChatMessageImpl;
+      final bool isStreaming,
+      final ScheduleModel? schedule}) = _$ChatMessageImpl;
 
   @override
   String get id;
@@ -1439,6 +1481,11 @@ abstract class _ChatMessage implements ChatMessage {
   DateTime? get createdAt;
   @override
   bool get isStreaming;
+  @override
+
+  /// Optional structured schedule attached to this message (assistant only).
+  /// When present, the chat UI renders time-blocked cards underneath the text.
+  ScheduleModel? get schedule;
   @override
   @JsonKey(ignore: true)
   _$$ChatMessageImplCopyWith<_$ChatMessageImpl> get copyWith =>

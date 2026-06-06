@@ -1,4 +1,5 @@
 import 'package:luna_ai/core/config/app_config.dart';
+import 'package:luna_ai/shared/models/schedule_model.dart';
 import 'package:luna_ai/shared/models/wellness_model.dart';
 import 'package:luna_ai/shared/services/demo_storage_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -30,14 +31,18 @@ class ChatRepository {
         .eq('user_id', userId)
         .order('created_at', ascending: true)
         .limit(limit);
-    return (data as List)
-        .map((e) => ChatMessage(
-              id: e['id'] as String,
-              role: e['role'] as String,
-              content: e['message'] as String,
-              createdAt: DateTime.parse(e['created_at'] as String),
-            ))
-        .toList();
+    return (data as List).map((e) {
+      final scheduleJson = e['schedule'];
+      return ChatMessage(
+        id: e['id'] as String,
+        role: e['role'] as String,
+        content: e['message'] as String,
+        createdAt: DateTime.parse(e['created_at'] as String),
+        schedule: scheduleJson != null
+            ? ScheduleModel.fromJson(scheduleJson as Map<String, dynamic>)
+            : null,
+      );
+    }).toList();
   }
 
   Future<void> saveMessage(ChatMessage message) async {
@@ -51,6 +56,7 @@ class ChatRepository {
       'user_id': userId,
       'role': message.role,
       'message': message.content,
+      if (message.schedule != null) 'schedule': message.schedule!.toJson(),
     });
   }
 
